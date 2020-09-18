@@ -13,8 +13,8 @@ Bullet::~Bullet()
 
 void
 Bullet::Process(float deltaTime) {
-	this->SetPositionX(this->GetPositionX());
-	this->SetPositionY(this->GetPositionY()-this->m_velocityY * deltaTime);
+	this->SetPositionX(this->GetPositionX()+ this->m_velocityX * deltaTime);
+	this->SetPositionY(this->GetPositionY());
 };
 
 

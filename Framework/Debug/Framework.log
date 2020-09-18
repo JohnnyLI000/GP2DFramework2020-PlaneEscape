@@ -1,5 +1,7 @@
-﻿  Background.cpp
-C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\Background.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\Background.cpp(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\Background.cpp(25,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+﻿  game.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(74,52): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(74,39): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(202,67): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(202,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(380,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Framework.vcxproj -> C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Debug\Framework.exe

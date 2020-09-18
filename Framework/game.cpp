@@ -89,13 +89,10 @@ Game::Initialise()
 
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
 	
-	m_PlayerPlane = new PlayerPlane();
+	gravity = 1.4f;
 	pPlayerSprite = new Sprite();
-
 	pPlayerSprite = m_pBackBuffer->CreateSprite("assets\\plane\\default.png");
-	m_PlayerPlane->Initialise(pPlayerSprite);
-	m_PlayerPlane->SetPositionX(0);
-	m_PlayerPlane->SetPositionY(400);
+	generatePlayerPlane(gravity);
 
 	pBackgroundSprite = new Sprite();
 	pBackgroundSprite = m_pBackBuffer->CreateSprite("assets\\Background.png");
@@ -105,7 +102,7 @@ Game::Initialise()
 	//generateEnemy();
 
 	pBulletSprite = new Sprite();
-	pBulletSprite = m_pBackBuffer->CreateSprite("assets\\playerbullet.png");
+	pBulletSprite = m_pBackBuffer->CreateSprite("assets\\Bullet.png");
 
 	pExplosionSprite = new AnimatedSprite();
 	pExplosionSprite = m_pBackBuffer->CreateAnimatedSprite("assets\\explosion.png");
@@ -211,9 +208,7 @@ Game::Process(float deltaTime)
 			}
 
 		}
-
-
-		if (bullet->GetPositionY() < 0)
+		if (bullet->GetPositionX() >= width)
 		{
 			bulletList.erase(std::find(bulletList.begin(), bulletList.end() - 1, bullet));
 		}
@@ -241,9 +236,9 @@ Game::Process(float deltaTime)
 		}
 		score++;
 
-		char buffer[64];
-		sprintf(buffer, "background : %d", backgroundList.size());
-		LogManager::GetInstance().Log(buffer);
+		//char buffer[64];
+		//sprintf(buffer, "background : %d", backgroundList.size());
+		//LogManager::GetInstance().Log(buffer);
 	}
 
 }
@@ -252,7 +247,6 @@ void
 Game::Draw(BackBuffer& backBuffer)
 {
 	++m_frameCount;
-
 	backBuffer.Clear();
 	for (Background* background : backgroundList)
 	{
@@ -296,16 +290,25 @@ Game::Quit()
 }
 
 void
-Game::MoveSpaceShipLeft()
+Game::setPlaneGravity()
 {
-	m_PlayerPlane->SetVerticalVelocity(-1);
+	m_PlayerPlane->SetVerticalVelocity(gravity);
 }
 void
-Game::MoveSpaceShipRight()
+Game::movePlaneUp()
 {
-	m_PlayerPlane->SetVerticalVelocity(1);
+	m_PlayerPlane->SetPositionY(m_PlayerPlane->GetPositionY()-3);
+	m_PlayerPlane->SetVerticalVelocity(0);
+
+
 }
 
+void
+Game::generatePlayerPlane(float verticalSpeed) {
+	m_PlayerPlane = new PlayerPlane();
+	m_PlayerPlane->Initialise(pPlayerSprite);
+	m_PlayerPlane->SetVerticalVelocity(verticalSpeed);
+}
 void
 Game::generateEnemy()
 {
@@ -329,7 +332,6 @@ Game::SpawnEnemy(float x, float y)
 {
 	pEnemySprite = new Sprite();
 	pEnemySprite = m_pBackBuffer->CreateSprite("assets\\alienenemy.png");
-
 	m_Enemy = new Enemy();
 	m_Enemy->Initialise(pEnemySprite);
 	m_Enemy->SetPositionX(x);
@@ -342,18 +344,17 @@ Game::SpawnEnemy(float x, float y)
 }
 // SS04.6: Space fires a Bullet in game.
 void
-Game::FireSpaceShipBullet()
+Game::FireBullet()
 {
 	// SS04.6: Load the player bullet sprite.   
 
 	// SS04.6: Create a new bullet object.
 	m_Bullet = new Bullet();
 	m_Bullet->Initialise(pBulletSprite);
-	m_Bullet->SetPositionX(this->m_PlayerPlane->GetPositionX());
-	m_Bullet->SetPositionY(this->m_PlayerPlane->GetPositionY());
-
+	m_Bullet->SetPositionX(this->m_PlayerPlane->GetPositionX()+pPlayerSprite->GetWidth() / 2);
+	m_Bullet->SetPositionY(this->m_PlayerPlane->GetPositionY()+pPlayerSprite->GetHeight()/2);
 	// SS04.6: Set the bullets vertical velocity.
-	m_Bullet->SetVerticalVelocity(400.0f);
+	m_Bullet->SetHorizontalVelocity(500.0f);
 	// SS04.6: Add the new bullet to the bullet container.
 	bulletList.push_back(m_Bullet);
 }

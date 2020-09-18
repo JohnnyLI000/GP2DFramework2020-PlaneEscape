@@ -3,6 +3,7 @@
 // This include:
 #include "inputhandler.h"
 #include <iostream>
+#include <conio.h> 
 // Local includes:
 #include "game.h"
 #include "logmanager.h"
@@ -51,10 +52,17 @@ InputHandler::ProcessInput(Game& game)
 	// SS04.3: Receive Input Events below...
 
 	SDL_Event event;
-
+	const Uint8* keystate = SDL_GetKeyboardState(NULL); //continuous pressing 
 	while (SDL_PollEvent(&event) != 0)
 	{
-	
+		if (keystate[SDL_SCANCODE_SPACE]) 
+		{
+			game.movePlaneUp();
+		}
+		else {
+			game.setPlaneGravity();
+		}
+
 	 if (event.type == SDL_KEYDOWN)
 		{
 			if (event.key.keysym.sym == SDLK_ESCAPE)
@@ -63,21 +71,19 @@ InputHandler::ProcessInput(Game& game)
 			}
 		}
 		// SS04.6: Tell the game to fire a player bullet...
-		else if (event.key.keysym.sym == SDLK_SPACE) //10
+		else if (event.key.keysym.sym == SDLK_SPACE) 
 		{
-			game.FireSpaceShipBullet();
+
 		}
 
 		// SS04.3: Tell the game to move the space ship left...
 		else if (event.key.keysym.sym == SDLK_LEFT)
 		{
-			 game.MoveSpaceShipLeft();
 			 event.key.keysym.sym = 0;
 
 		}
 		else if (event.key.keysym.sym == SDLK_RIGHT)
 		{ 
-			 game.MoveSpaceShipRight();
 			 event.key.keysym.sym = 0;
 		}
 		// SS04.3: Tell the game to move the space ship right...

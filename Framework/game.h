@@ -30,9 +30,11 @@ public:
 	static float height;
 
 	void MoveSpaceShipLeft();
-	void MoveSpaceShipRight();
+	void setPlaneGravity();
+	void movePlaneUp();
+	void generatePlayerPlane(float verticalSpeed);
 	void generateEnemy();
-	void FireSpaceShipBullet();
+	void FireBullet();
 	void SpawnEnemy(float x, float y);
 protected:
 	void Process(float deltaTime);
@@ -63,6 +65,7 @@ protected:
 	int m_numUpdates;
 	bool m_drawDebugInfo;
 	float score;
+	float gravity;
 	PlayerPlane* m_PlayerPlane;
 	Sprite* pPlayerSprite;
 
