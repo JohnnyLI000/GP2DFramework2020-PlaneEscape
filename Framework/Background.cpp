@@ -15,15 +15,12 @@ Background::~Background()
 }
 
 void
-Background::Process(float deltaTime,PlayerPlane* playerPlane) {
+Background::Process(float deltaTime,PlayerPlane* playerPlane,bool isStop) {
 	//this->SetPositionX(startPosX-playerPlane->GetPositionX());
-	this->SetPositionX(this->GetPositionX()-std::sin(100 * deltaTime)*2);
-	this->SetPositionY(-400);
-
-	//this->SetPositionY(-playerPlane->GetPositionY());
-	char buffer[64];
-	sprintf(buffer, "background : %f", this->GetPositionX());
-	LogManager::GetInstance().Log(buffer);
+	if (!isStop) {
+		this->SetPositionX(this->GetPositionX() - std::sin(100 * deltaTime) * 2);
+		this->SetPositionY(-400);
+	}
 };
 
 void 

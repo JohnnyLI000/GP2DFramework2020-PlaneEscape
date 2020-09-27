@@ -29,13 +29,13 @@ public:
 	static float width;
 	static float height;
 
-	void MoveSpaceShipLeft();
 	void setPlaneGravity();
 	void movePlaneUp();
 	void generatePlayerPlane(float verticalSpeed);
 	void generateEnemy();
-	void FireBullet();
+	void FireBullet(bool isEnemy, Entity* plane);
 	void SpawnEnemy(float x, float y);
+	Entity* getPlayerPlane();
 protected:
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
@@ -95,16 +95,10 @@ protected:
 	// SS04.6: Add a bullet container field.
 
 private:
-
-
-
-
 	void generateExplosion(int x, int y);
-
 	void generateBackground();
-
 	void prepareBackground(float x);
-
+	bool isGameOver;
 
 
 

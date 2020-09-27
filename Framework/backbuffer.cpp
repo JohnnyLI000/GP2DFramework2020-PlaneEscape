@@ -33,19 +33,22 @@ BackBuffer::BackBuffer()
 
 BackBuffer::~BackBuffer() 
 {
+
 	SDL_DestroyRenderer(m_pRenderer);
 	m_pRenderer = 0;
 
 	SDL_DestroyWindow(m_pWindow); 
 	m_pWindow = 0;
 
+	//delete tex
+	//	tex =0
 	IMG_Quit();
 	SDL_Quit();
 }
 void BackBuffer::clearSprite() {
 	m_pTextureManager->~TextureManager();
-	//m_pTextureManager = new TextureManager();
 }
+
 bool 
 BackBuffer::Initialise(int width, int height)
 {
@@ -221,7 +224,7 @@ BackBuffer::CreateSprite(const char* pcFilename)
 	{
 		LogManager::GetInstance().Log("Sprite Failed to Create!");
 	}
-
+	pTexture = nullptr;
 	return (pSprite);
 }
 
@@ -236,6 +239,7 @@ BackBuffer::CreateAnimatedSprite(const char* pcFilename)
 	{
 		LogManager::GetInstance().Log("Sprite Failed to Create!");
 	}
+	pTexture = nullptr;
 
 	return (pSprite);
 }

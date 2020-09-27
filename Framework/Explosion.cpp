@@ -2,7 +2,7 @@
 
 Explosion::Explosion()
 {
-	SetFrames(5);
+	SetFrames(4);
 }
 
 Explosion::~Explosion()

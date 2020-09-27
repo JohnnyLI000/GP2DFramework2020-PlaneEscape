@@ -26,6 +26,7 @@ protected:
 private:
 	TextureManager(const TextureManager& textureManager);
 	TextureManager& operator=(const TextureManager& textureManager);
+	Texture* pTexture;
 
 	//Member Data:
 public:

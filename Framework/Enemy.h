@@ -11,6 +11,13 @@ public:
 
 	void Process(float deltaTime);
 
+	void setStartPosX(float x);
+	void setStartPosY(float y);
+
+private:
+	float startPosX;
+	float startPosY;
+	
 };
 #endif // !__PLAYER_SHIP_H__
 #pragma once

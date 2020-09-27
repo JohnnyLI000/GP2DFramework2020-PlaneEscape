@@ -67,7 +67,7 @@ Entity::IsCollidingWith(Entity& e)
 	// SS04.6: Check for intersection.
 
 	if (std::abs((this->GetPositionX() - e.GetPositionX())) < circle) {
-		if (std::abs((this->GetPositionY() - e.GetPositionY())) < circle)
+		if (std::abs((this->GetPositionY() - e.GetPositionY()-e.m_pSprite->GetHeight()/2)) < circle)
 		{
 			isCollide = true;
 		}

@@ -10,11 +10,12 @@ public:
 	Background();
 	~Background();
 
+	void Process(float deltaTime, PlayerPlane* playerPlane, bool isStop);
 
-	void Process(float deltaTime, PlayerPlane* playerPlane);
 
 	void setStartPosX(float x);
 
+private:
 	float startPosX;
 
 };

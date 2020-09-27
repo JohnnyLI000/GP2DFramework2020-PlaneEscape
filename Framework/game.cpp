@@ -1,5 +1,4 @@
 // COMP710 GP 2D Framework 2020
-
 // This includes:
 #include "game.h"
 
@@ -55,6 +54,7 @@ Game::Game()
 	, m_Enemy()
 	, pEnemySprite()
 	, score(0)
+	, isGameOver(false)
 {
 
 }
@@ -98,14 +98,17 @@ Game::Initialise()
 	pBackgroundSprite = m_pBackBuffer->CreateSprite("assets\\Background.png");
 	generateBackground();
 
-	// SS04.5: Spawn four rows of 14 alien enemies.
-	//generateEnemy();
 
 	pBulletSprite = new Sprite();
 	pBulletSprite = m_pBackBuffer->CreateSprite("assets\\Bullet.png");
 
 	pExplosionSprite = new AnimatedSprite();
-	pExplosionSprite = m_pBackBuffer->CreateAnimatedSprite("assets\\explosion.png");
+	pExplosionSprite = m_pBackBuffer->CreateAnimatedSprite("assets\\Plane\\death.png");
+	pEnemySprite = new Sprite();
+	pEnemySprite = m_pBackBuffer->CreateSprite("assets\\enemyPlaneDefault.png");
+	
+	//generate enemy 
+	generateEnemy();
 
 	m_pBackBuffer->clearSprite();
 	return (true);
@@ -144,11 +147,10 @@ Game::DoGameLoop()
 			++m_numUpdates;
 			++innerLag;
 		}
-
-
-		m_pInputHandler->~InputHandler();
 		Draw(*m_pBackBuffer);
+
 	}
+	m_pInputHandler->~InputHandler();
 
 	return (m_looping);
 }
@@ -170,19 +172,29 @@ Game::Process(float deltaTime)
 	// Update the game world simulation:
 
 	// : Process each alien enemy in the container.
+
+	// Update player...
+	m_PlayerPlane->Process(deltaTime);
+	char buffer[64];
+	sprintf(buffer, "seconds: %f",m_elapsedSeconds);
+	LogManager::GetInstance().Log(buffer);
 	for (Enemy* enemy : enemyList)
 	{
 		enemy->Process(deltaTime);
+		if (abs(enemy->GetPositionY() - m_PlayerPlane->GetPositionY())<20)
+		{
+			if ((int)(m_elapsedSeconds*100)%15== 0)
+			{
+				FireBullet(true, enemy);
+
+			}
+		}
 	}
 	// Process each bullet in the container.
 	for (Bullet* bullet : bulletList)
 	{
 		bullet->Process(deltaTime);
 	}
-
-	// SS04.4: Update player...
-	m_PlayerPlane->Process(deltaTime);
-
 	
 	// Check for bullet vs alien enemy collisions...
 	// For each bullet
@@ -200,15 +212,37 @@ Game::Process(float deltaTime)
 			isCollide = bullet->IsCollidingWith(*enemy);
 			if (isCollide) {
 				generateExplosion(bullet->GetPositionX(), bullet->GetPositionY());
-				bulletList.erase(std::find(bulletList.begin(), bulletList.end() - 1, bullet));
-				enemyList.erase(std::find(enemyList.begin(), enemyList.end() - 1, enemy));
-				bullet->~Bullet();
-				enemy->~Enemy();
+				if (bulletList.size() != 0)
+				{
+					bulletList.erase(std::find(bulletList.begin(), bulletList.end() - 1, bullet));
+					bullet->~Bullet();
+
+				}
+				if (enemyList.size() != 0)
+				{
+					enemyList.erase(std::find(enemyList.begin(), enemyList.end() - 1, enemy));
+					enemy->~Enemy();
+				}
+
+				if (enemyList.size() == 0)
+				{
+					generateEnemy();
+				}
 				continue;
 			}
 
 		}
-		if (bullet->GetPositionX() >= width)
+		isCollide = bullet->IsCollidingWith(*m_PlayerPlane);
+		if (isCollide) {
+			isGameOver = true;
+			generateExplosion(bullet->GetPositionX(), bullet->GetPositionY());
+			if (bulletList.size() != 0)
+			{
+				bulletList.erase(std::find(bulletList.begin(), bulletList.end() - 1, bullet));
+				bullet->~Bullet();
+			}
+		}
+		if (bullet->GetPositionX() >= width||bullet->GetPositionX()<0)
 		{
 			bulletList.erase(std::find(bulletList.begin(), bulletList.end() - 1, bullet));
 		}
@@ -225,20 +259,26 @@ Game::Process(float deltaTime)
 	}
 	for (Background* background : backgroundList)
 	{
-		background->Process(deltaTime, m_PlayerPlane);
+		if(isGameOver)
+		{
+			background->Process(deltaTime, m_PlayerPlane, true);
+		}
+		else {
+			background->Process(deltaTime, m_PlayerPlane, false);
+		}
 		if (abs(background->GetPositionX()) >= pBackgroundSprite->GetWidth()) {
 			backgroundList.erase(std::find(backgroundList.begin(), backgroundList.end() - 1, background));
-
 		}
 		if (backgroundList.size() == 1)
 		{
 			prepareBackground(backgroundList.at(backgroundList.size() - 1)->GetPositionX()+ pBackgroundSprite->GetWidth());
 		}
-		score++;
+		if (!isGameOver)
+		{
+			score++;
+		}
 
-		//char buffer[64];
-		//sprintf(buffer, "background : %d", backgroundList.size());
-		//LogManager::GetInstance().Log(buffer);
+
 	}
 
 }
@@ -277,9 +317,7 @@ Game::Draw(BackBuffer& backBuffer)
 	
 	
 	m_pBackBuffer->SetTextColour(255, 0, 0);
-	m_pBackBuffer->DrawText(100, 100, std::to_string((int)score).c_str());
-
-	//m_pBackBuffer->DrawText(100, 100, std::to_string((int)(m_PlayerPlane->GetPositionX())).c_str());
+	m_pBackBuffer->DrawText(100, 100, std::to_string((int)score).c_str());//memory leak from here
 	backBuffer.Present();
 }
 
@@ -312,62 +350,57 @@ Game::generatePlayerPlane(float verticalSpeed) {
 void
 Game::generateEnemy()
 {
-	float xb = 40;
-	float yb = 30;
-	float width = 50;
-	for (int r = 0; r < 4; r++)
+	srand(rand());
+	for (int i = 0; i < 3; i++)
 	{
-		for (int c = 0; c < 15; c++)
-		{
-			SpawnEnemy(xb, yb);
-			xb += width;
-		}
-		xb = 40;
-		yb += width;
+		int randomPosY = rand() % ((int)height-300);
+		char buffer[64];
+		SpawnEnemy(width - 100, randomPosY);
 	}
 }
 //  Spawn a Enemy in game.
 void
 Game::SpawnEnemy(float x, float y)
 {
-	pEnemySprite = new Sprite();
-	pEnemySprite = m_pBackBuffer->CreateSprite("assets\\alienenemy.png");
+
 	m_Enemy = new Enemy();
 	m_Enemy->Initialise(pEnemySprite);
-	m_Enemy->SetPositionX(x);
+	m_Enemy->setStartPosX(x);
+	m_Enemy->SetPositionX(width);
 	m_Enemy->SetPositionY(y);
+	m_Enemy->SetHorizontalVelocity(100);
 	//  Add the new Enemy to the enemy container.
 	enemyList.push_back(m_Enemy);
-	//char buffer[64];
-	//sprintf(buffer, "%p", m_Enemy);
-	//LogManager::GetInstance().Log(buffer);
-}
-// SS04.6: Space fires a Bullet in game.
-void
-Game::FireBullet()
-{
-	// SS04.6: Load the player bullet sprite.   
 
-	// SS04.6: Create a new bullet object.
+}
+
+
+void
+Game::FireBullet(bool isEnemy,Entity* plane)
+{
 	m_Bullet = new Bullet();
 	m_Bullet->Initialise(pBulletSprite);
-	m_Bullet->SetPositionX(this->m_PlayerPlane->GetPositionX()+pPlayerSprite->GetWidth() / 2);
-	m_Bullet->SetPositionY(this->m_PlayerPlane->GetPositionY()+pPlayerSprite->GetHeight()/2);
-	// SS04.6: Set the bullets vertical velocity.
+	m_Bullet->setIsEnemy(isEnemy);
+	if (!isEnemy) {
+		m_Bullet->SetPositionX(plane->GetPositionX() + pPlayerSprite->GetWidth() / 2+80);
+	}
+	else {
+		m_Bullet->SetPositionX(plane->GetPositionX() + pPlayerSprite->GetWidth() / 2-80);
+
+	}
+	m_Bullet->SetPositionY(plane->GetPositionY()+pPlayerSprite->GetHeight()/2);
 	m_Bullet->SetHorizontalVelocity(500.0f);
-	// SS04.6: Add the new bullet to the bullet container.
 	bulletList.push_back(m_Bullet);
 }
 void
 Game::generateExplosion(int x, int y) {
 	m_Explosion = new Explosion();
 	m_Explosion->Initialise(*pExplosionSprite->GetTexture());
-	m_Explosion->SetFrameSpeed(0.1f);
+	m_Explosion->SetFrameSpeed(0.2f);
 	m_Explosion->SetLooping(false);
 	m_Explosion->SetX(x);
 	m_Explosion->SetY(y);
 	explosionList.push_back(m_Explosion);
-
 }
 void
 Game::generateBackground() {
@@ -379,11 +412,19 @@ Game::generateBackground() {
 	m_Background->Initialise(pBackgroundSprite);
 	m_Background->setStartPosX(pBackgroundSprite->GetWidth());
 	backgroundList.push_back(m_Background);
-}void
+}
+void
 Game::prepareBackground(float x) {
 	m_Background = new Background();
 	m_Background->Initialise(pBackgroundSprite);
 	m_Background->setStartPosX(x);
 	backgroundList.push_back(m_Background);
 }
+
+Entity*
+Game::getPlayerPlane()
+{
+	return m_PlayerPlane;
+}
+
 

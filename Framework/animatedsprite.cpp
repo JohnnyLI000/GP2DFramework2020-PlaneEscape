@@ -79,13 +79,14 @@ AnimatedSprite::Process(float deltaTime)
 			m_timeElapsed = 0;
 		}
 
-		char buffer[64];
-		sprintf(buffer, "%d", m_currentFrame);
-		LogManager::GetInstance().Log(buffer);
+		//char buffer[64];
+		//sprintf(buffer, "%d", m_currentFrame);
+		//LogManager::GetInstance().Log(buffer);
 	}			
 
 	// : Stop the animation if it is not looping...
 	if (IsLooping() == false) {
+
 		if (m_currentFrame >= m_frameCoordinates.size() ) {
 			this->Pause();
 			m_currentFrame = 0;
@@ -108,17 +109,11 @@ void
 AnimatedSprite::Draw(BackBuffer& backbuffer)
 {
 	// Draw the particular frame into the backbuffer.
-
-	//backbuffer.DrawSprite(*this);
-//	backbuffer.DrawAnimatedSprite(*this, 128);
 	if (!IsPaused())
 	{
 		backbuffer.DrawAnimatedSprite(*this, m_frameCoordinates.at(m_currentFrame), m_frames );
 	}
-	//for (int i = 0; i < m_frameCoordinates.size(); i++)
-	//{
-	//	backbuffer.DrawAnimatedSprite(*this,m_frameCoordinates.at(i));
-	//}
+
 
 }
 

@@ -29,6 +29,7 @@ InputHandler::~InputHandler()
 		SDL_JoystickClose(m_pGameController);
 		m_pGameController = 0;
 	}
+
 }
 
 bool 
@@ -79,12 +80,11 @@ InputHandler::ProcessInput(Game& game)
 		// SS04.3: Tell the game to move the space ship left...
 		else if (event.key.keysym.sym == SDLK_LEFT)
 		{
-			 event.key.keysym.sym = 0;
-
+			 
 		}
 		else if (event.key.keysym.sym == SDLK_RIGHT)
 		{ 
-			 event.key.keysym.sym = 0;
+			 game.FireBullet(false,game.getPlayerPlane());
 		}
 		// SS04.3: Tell the game to move the space ship right...
 	}
