@@ -54,7 +54,7 @@ Game::Game()
 	, m_Enemy()
 	, pEnemySprite()
 	, score(0)
-	, isGameOver(false)
+	, isGameOver(true)
 {
 
 }
@@ -474,6 +474,9 @@ Game::menuEnter() {
 	{
 		isGameOver = false;
 		restartGame();
+	}
+	else {
+		Quit();
 	}
 }
 
