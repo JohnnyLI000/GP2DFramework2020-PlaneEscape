@@ -17,7 +17,7 @@
 #define KEY_DOWN  80
 
 InputHandler::InputHandler()
-: m_pGameController(0)
+	: m_pGameController(0)
 {
 
 }
@@ -32,7 +32,7 @@ InputHandler::~InputHandler()
 
 }
 
-bool 
+bool
 InputHandler::Initialise()
 {
 	int numControllesr = SDL_NumJoysticks();
@@ -47,7 +47,7 @@ InputHandler::Initialise()
 	return (true);
 }
 
-void 
+void
 InputHandler::ProcessInput(Game& game)
 {
 	// SS04.3: Receive Input Events below...
@@ -56,7 +56,7 @@ InputHandler::ProcessInput(Game& game)
 	const Uint8* keystate = SDL_GetKeyboardState(NULL); //continuous pressing 
 	while (SDL_PollEvent(&event) != 0)
 	{
-		if (keystate[SDL_SCANCODE_SPACE]) 
+		if (keystate[SDL_SCANCODE_SPACE])
 		{
 			game.movePlaneUp();
 		}
@@ -64,7 +64,7 @@ InputHandler::ProcessInput(Game& game)
 			game.setPlaneGravity();
 		}
 
-	 if (event.type == SDL_KEYDOWN)
+		if (event.type == SDL_KEYDOWN)
 		{
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 			{
@@ -76,15 +76,22 @@ InputHandler::ProcessInput(Game& game)
 		// SS04.3: Tell the game to move the space ship left...
 		else if (event.key.keysym.sym == SDLK_UP)
 		{
-		 game.moveArrowUpInGameMenu();
+			game.moveArrowUpInGameMenu();
 		}
 		else if (event.key.keysym.sym == SDLK_DOWN)
-	 {
-		 game.moveArrowDownInGameMenu();
-	 }
+		{
+			game.moveArrowDownInGameMenu();
+		}
+		else if (event.key.keysym.sym ==SDLK_c)
+		{
+			if (game.getIsGameOver())
+			{
+				game.menuEnter();
+			}
+		}
 		else if (event.key.keysym.sym == SDLK_RIGHT)
-		{ 
-			 game.FireBullet(false,game.getPlayerPlane());
+		{
+			game.FireBullet(false, game.getPlayerPlane());
 		}
 		// SS04.3: Tell the game to move the space ship right...
 	}

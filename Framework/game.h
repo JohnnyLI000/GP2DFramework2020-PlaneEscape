@@ -40,6 +40,8 @@ public:
 	void moveArrowUpInGameMenu();
 	void moveArrowDownInGameMenu();
 	void menuEnter();
+	bool getIsGameOver();
+	void restartGame();
 protected:
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);

@@ -470,6 +470,24 @@ Game::moveArrowDownInGameMenu() {
 }
 void
 Game::menuEnter() {
+	if (m_Arrow->GetPositionY() - m_GameMenu->GetPositionY() <= 10)
+	{
+		isGameOver = false;
+		restartGame();
+	}
+}
 
+bool
+Game::getIsGameOver() {
+	return isGameOver;
+}
+
+void
+Game::restartGame() {
+	score = 0;
+	generatePlayerPlane(gravity);
+	enemyList.clear();
+	generateEnemy();
+	bulletList.clear();
 }
 
