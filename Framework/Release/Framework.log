@@ -1,0 +1,35 @@
+﻿  animatedsprite.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\texture.h(6,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  backbuffer.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\backbuffer.h(4,10): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  Background.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\Background.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\Background.cpp(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Bullet.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\Bullet.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\Bullet.cpp(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Enemy.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\Enemy.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\Enemy.cpp(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  entity.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\backbuffer.h(4,10): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  Explosion.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\Explosion.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  game.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\backbuffer.h(4,10): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  GameMenu.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\GameMenu.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  inputhandler.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\inputhandler.h(6,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  logmanager.cpp
+  main.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\main.cpp(4,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  PlayerPlane.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\PlayerPlane.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\PlayerPlane.cpp(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  sprite.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\backbuffer.h(4,10): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  texture.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\texture.h(6,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  texturemanager.cpp
+C:\Users\11488\Desktop\BCIS\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\texture.h(6,10): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory

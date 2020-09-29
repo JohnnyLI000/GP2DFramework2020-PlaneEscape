@@ -6,7 +6,7 @@
 #include <vector>
 #include "Explosion.h"
 #include "Background.h"
-
+#include "GameMenu.h"
 #ifndef __GAME_H__
 #define __GAME_H__
 
@@ -36,6 +36,10 @@ public:
 	void FireBullet(bool isEnemy, Entity* plane);
 	void SpawnEnemy(float x, float y);
 	Entity* getPlayerPlane();
+	void setUpGameMenu();
+	void moveArrowUpInGameMenu();
+	void moveArrowDownInGameMenu();
+	void menuEnter();
 protected:
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
@@ -81,6 +85,10 @@ protected:
 	AnimatedSprite* pExplosionSprite;
 	Explosion* m_Explosion;
 
+	Sprite* pGameMenuSprite;
+	GameMenu* m_GameMenu;
+	Sprite* pArrowSprite;
+	Entity* m_Arrow;
 	std::vector<Enemy*> enemyList;
 	std::vector<Bullet*> bulletList;
 	std::vector<Explosion*> explosionList;

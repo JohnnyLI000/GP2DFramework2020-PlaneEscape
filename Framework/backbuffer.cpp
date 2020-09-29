@@ -191,12 +191,10 @@ void
 BackBuffer::DrawRectangle(int x1, int y1, int x2, int y2)
 {
 	SDL_Rect fillRect;
-	
 	fillRect.x = x1;
 	fillRect.y = y1;
 	fillRect.w = x2 - x1;
 	fillRect.h = y2 - y1;
-
 	SDL_RenderFillRect(m_pRenderer, &fillRect);
 }
 
@@ -266,8 +264,8 @@ void BackBuffer::DrawText(int x, int y, const char* pcText)
 	colour.g = m_textGreen;
 	colour.b = m_textBlue;
 	colour.a = 255;
-
-	SDL_Surface* SDLSurface = TTF_RenderText_Solid(	TTF_OpenFont("assets\\ariblk.ttf", 20), pcText, colour);
+	TTF_Font* font = TTF_OpenFont("assets\\ariblk.ttf", 20);
+	SDL_Surface* SDLSurface = TTF_RenderText_Solid(font, pcText, colour);
 	SDL_Texture* Texture = SDL_CreateTextureFromSurface(m_pRenderer, SDLSurface);
 	SDL_QueryTexture(Texture, NULL, NULL, &SDLSurface->w, &SDLSurface->h);
 	
@@ -279,5 +277,8 @@ void BackBuffer::DrawText(int x, int y, const char* pcText)
 
 	SDL_RenderCopy(m_pRenderer, Texture, &destRect, &destRect);
 	SDL_DestroyTexture(Texture);
+	Texture = nullptr;
 	SDL_FreeSurface(SDLSurface);
+	SDLSurface = nullptr;
+	TTF_CloseFont(font);
 }

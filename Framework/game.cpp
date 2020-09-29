@@ -110,7 +110,14 @@ Game::Initialise()
 	//generate enemy 
 	generateEnemy();
 
+	pGameMenuSprite= new Sprite();
+	pGameMenuSprite = m_pBackBuffer->CreateSprite("assets\\game menu\\gameMenu.png");
+
+	pArrowSprite = new Sprite();
+	pArrowSprite = m_pBackBuffer->CreateSprite("assets\\game menu\\arrow.png");
 	m_pBackBuffer->clearSprite();
+
+	setUpGameMenu();
 	return (true);
 }
 
@@ -169,24 +176,24 @@ Game::Process(float deltaTime)
 		m_frameCount = 0;
 	}
 
-	// Update the game world simulation:
+	m_GameMenu->Process(deltaTime);
+	m_Arrow->Process(deltaTime);
 
-	// : Process each alien enemy in the container.
-
+	if(!isGameOver)
+	{
 	// Update player...
 	m_PlayerPlane->Process(deltaTime);
-	char buffer[64];
-	sprintf(buffer, "seconds: %f",m_elapsedSeconds);
-	LogManager::GetInstance().Log(buffer);
+	//char buffer[64];
+	//sprintf(buffer, "seconds: %f",m_elapsedSeconds);
+	//LogManager::GetInstance().Log(buffer);
 	for (Enemy* enemy : enemyList)
 	{
 		enemy->Process(deltaTime);
 		if (abs(enemy->GetPositionY() - m_PlayerPlane->GetPositionY())<20)
 		{
-			if ((int)(m_elapsedSeconds*100)%15== 0)
+			if ((int)(m_elapsedSeconds*100)%20== 0)
 			{
 				FireBullet(true, enemy);
-
 			}
 		}
 	}
@@ -234,6 +241,8 @@ Game::Process(float deltaTime)
 		}
 		isCollide = bullet->IsCollidingWith(*m_PlayerPlane);
 		if (isCollide) {
+			//system("PAUSE");
+			//system("CLS");
 			isGameOver = true;
 			generateExplosion(bullet->GetPositionX(), bullet->GetPositionY());
 			if (bulletList.size() != 0)
@@ -278,9 +287,8 @@ Game::Process(float deltaTime)
 			score++;
 		}
 
-
 	}
-
+	 }
 }
 
 void
@@ -288,36 +296,42 @@ Game::Draw(BackBuffer& backBuffer)
 {
 	++m_frameCount;
 	backBuffer.Clear();
-	for (Background* background : backgroundList)
+	m_GameMenu->Draw(backBuffer);
+	m_Arrow->Draw(backBuffer);
+
+	if (!isGameOver)
 	{
-		background->Draw(backBuffer);
+		for (Background* background : backgroundList)
+		{
+			background->Draw(backBuffer);
+		}
+		// Draw the player ship...
+		m_PlayerPlane->Draw(backBuffer);
+
+		//  Draw all enemy aliens in container...
+		for (Enemy* enemy : enemyList)
+		{
+			enemy->Draw(backBuffer);
+		}
+
+
+		//Draw all bullets in container...
+		for (Bullet* bullet : bulletList)
+		{
+			bullet->Draw(backBuffer);
+		}
+
+
+
+		for (Explosion* explosion : explosionList)
+		{
+			explosion->Draw(backBuffer);
+		}
+
+
+		m_pBackBuffer->SetTextColour(255, 0, 0);
+		m_pBackBuffer->DrawText(100, 100, std::to_string((int)score).c_str());//memory leak from here
 	}
-	// Draw the player ship...
-	m_PlayerPlane->Draw(backBuffer);
-
-	//  Draw all enemy aliens in container...
-	for (Enemy* enemy : enemyList)
-	{
-		enemy->Draw(backBuffer);
-	}
-
-
-	//Draw all bullets in container...
-	for (Bullet* bullet : bulletList)
-	{
-		bullet->Draw(backBuffer);
-	}
-
-
-
-	for (Explosion* explosion : explosionList)
-	{
-		explosion->Draw(backBuffer);
-	}
-	
-	
-	m_pBackBuffer->SetTextColour(255, 0, 0);
-	m_pBackBuffer->DrawText(100, 100, std::to_string((int)score).c_str());//memory leak from here
 	backBuffer.Present();
 }
 
@@ -427,4 +441,35 @@ Game::getPlayerPlane()
 	return m_PlayerPlane;
 }
 
+void
+Game::setUpGameMenu() {
+	m_GameMenu = new GameMenu();
+	m_GameMenu->SetPositionX(300);
+	m_GameMenu->SetPositionY(200);
+	m_GameMenu->Initialise(pGameMenuSprite);
+
+	m_Arrow = new Entity();
+	m_Arrow->SetPositionX(100);
+	m_Arrow->SetPositionY(180);
+	m_Arrow->Initialise(pArrowSprite);
+} 
+
+void
+Game::moveArrowUpInGameMenu() {
+	if(m_Arrow->GetPositionY()-80>=180)
+	{ 
+		m_Arrow->SetPositionY(m_Arrow->GetPositionY() - 80);
+	}
+}
+void
+Game::moveArrowDownInGameMenu() {
+	if (m_Arrow->GetPositionY()+80 <= 260)
+	{
+		m_Arrow->SetPositionY(m_Arrow->GetPositionY() +80);
+	}
+}
+void
+Game::menuEnter() {
+
+}
 

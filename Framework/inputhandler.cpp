@@ -72,16 +72,16 @@ InputHandler::ProcessInput(Game& game)
 			}
 		}
 		// SS04.6: Tell the game to fire a player bullet...
-		else if (event.key.keysym.sym == SDLK_SPACE) 
-		{
-
-		}
 
 		// SS04.3: Tell the game to move the space ship left...
-		else if (event.key.keysym.sym == SDLK_LEFT)
+		else if (event.key.keysym.sym == SDLK_UP)
 		{
-			 
+		 game.moveArrowUpInGameMenu();
 		}
+		else if (event.key.keysym.sym == SDLK_DOWN)
+	 {
+		 game.moveArrowDownInGameMenu();
+	 }
 		else if (event.key.keysym.sym == SDLK_RIGHT)
 		{ 
 			 game.FireBullet(false,game.getPlayerPlane());
