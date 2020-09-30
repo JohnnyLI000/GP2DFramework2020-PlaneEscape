@@ -31,5 +31,3 @@ Background::setStartPosX(float x) {
 
 
 
-
-

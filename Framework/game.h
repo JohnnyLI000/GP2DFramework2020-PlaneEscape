@@ -7,6 +7,8 @@
 #include "Explosion.h"
 #include "Background.h"
 #include "GameMenu.h"
+#include "ParticleEmitter.h"
+#include "Particle.h"
 #ifndef __GAME_H__
 #define __GAME_H__
 
@@ -42,6 +44,8 @@ public:
 	void menuEnter();
 	bool getIsGameOver();
 	void restartGame();
+	void generateRainParticle();
+
 protected:
 	void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
@@ -91,6 +95,10 @@ protected:
 	GameMenu* m_GameMenu;
 	Sprite* pArrowSprite;
 	Entity* m_Arrow;
+
+	Sprite* pRainParticleSprite;
+	Particle* m_RainParticle;
+	ParticleEmitter* m_RainParticleEmitter;
 	std::vector<Enemy*> enemyList;
 	std::vector<Bullet*> bulletList;
 	std::vector<Explosion*> explosionList;

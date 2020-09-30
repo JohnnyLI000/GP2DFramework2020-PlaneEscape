@@ -9,8 +9,6 @@ public:
 	PlayerPlane();
 	~PlayerPlane();
 
-	void Draw(BackBuffer& backBuffer);
-
 	void Process(float deltaTime);
 
 

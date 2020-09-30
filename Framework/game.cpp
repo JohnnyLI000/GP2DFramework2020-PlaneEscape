@@ -55,6 +55,7 @@ Game::Game()
 	, pEnemySprite()
 	, score(0)
 	, isGameOver(true)
+	, m_RainParticle()
 {
 
 }
@@ -71,7 +72,7 @@ Game::Initialise()
 
 	m_pBackBuffer = new BackBuffer();
 
-	if (!m_pBackBuffer->Initialise(this->width, this->height))
+	if (!m_pBackBuffer->Initialise((int)this->width, (int)this->height))
 	{
 		LogManager::GetInstance().Log("BackBuffer Init Fail!");
 		return (false);
@@ -88,7 +89,7 @@ Game::Initialise()
 	m_lag = 0.0f;
 
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
-	
+
 	gravity = 1.4f;
 	pPlayerSprite = new Sprite();
 	pPlayerSprite = m_pBackBuffer->CreateSprite("assets\\plane\\default.png");
@@ -106,18 +107,24 @@ Game::Initialise()
 	pExplosionSprite = m_pBackBuffer->CreateAnimatedSprite("assets\\Plane\\death.png");
 	pEnemySprite = new Sprite();
 	pEnemySprite = m_pBackBuffer->CreateSprite("assets\\enemyPlaneDefault.png");
-	
+
 	//generate enemy 
 	generateEnemy();
 
-	pGameMenuSprite= new Sprite();
+	pGameMenuSprite = new Sprite();
 	pGameMenuSprite = m_pBackBuffer->CreateSprite("assets\\game menu\\gameMenu.png");
 
 	pArrowSprite = new Sprite();
 	pArrowSprite = m_pBackBuffer->CreateSprite("assets\\game menu\\arrow.png");
-	m_pBackBuffer->clearSprite();
+
+	pRainParticleSprite = new Sprite();
+	pRainParticleSprite = m_pBackBuffer->CreateSprite("assets\\rain.png");
+	generateRainParticle();
 
 	setUpGameMenu();
+
+	m_pBackBuffer->clearSprite();
+
 	return (true);
 }
 
@@ -179,116 +186,117 @@ Game::Process(float deltaTime)
 	m_GameMenu->Process(deltaTime);
 	m_Arrow->Process(deltaTime);
 
-	if(!isGameOver)
+	if (!isGameOver)
 	{
-	// Update player...
-	m_PlayerPlane->Process(deltaTime);
-	//char buffer[64];
-	//sprintf(buffer, "seconds: %f",m_elapsedSeconds);
-	//LogManager::GetInstance().Log(buffer);
-	for (Enemy* enemy : enemyList)
-	{
-		enemy->Process(deltaTime);
-		if (abs(enemy->GetPositionY() - m_PlayerPlane->GetPositionY())<20)
-		{
-			if ((int)(m_elapsedSeconds*100)%20== 0)
-			{
-				FireBullet(true, enemy);
-			}
-		}
-	}
-	// Process each bullet in the container.
-	for (Bullet* bullet : bulletList)
-	{
-		bullet->Process(deltaTime);
-	}
-	
-	// Check for bullet vs alien enemy collisions...
-	// For each bullet
-	// For each alien enemy
-	// Check collision between two entities.
-	// If collided, destory both and spawn explosion.
-	// Remove any dead bullets from the container...
-	// Remove any dead enemy aliens from the container...
-	for (Bullet* bullet : bulletList)
-	{
-
-		bool isCollide = false;
+		m_RainParticleEmitter->process(deltaTime);
+		// Update player...
+		m_PlayerPlane->Process(deltaTime);
+		//char buffer[64];
+		//sprintf(buffer, "seconds: %f",m_elapsedSeconds);
+		//LogManager::GetInstance().Log(buffer);
 		for (Enemy* enemy : enemyList)
 		{
-			isCollide = bullet->IsCollidingWith(*enemy);
+			enemy->Process(deltaTime);
+			if (abs(enemy->GetPositionY() - m_PlayerPlane->GetPositionY()) < 20)
+			{
+				if ((int)(m_elapsedSeconds * 100) % 20 == 0)
+				{
+					FireBullet(true, enemy);
+				}
+			}
+		}
+		// Process each bullet in the container.
+		for (Bullet* bullet : bulletList)
+		{
+			bullet->Process(deltaTime);
+		}
+
+		// Check for bullet vs alien enemy collisions...
+		// For each bullet
+		// For each alien enemy
+		// Check collision between two entities.
+		// If collided, destory both and spawn explosion.
+		// Remove any dead bullets from the container...
+		// Remove any dead enemy aliens from the container...
+		for (Bullet* bullet : bulletList)
+		{
+
+			bool isCollide = false;
+			for (Enemy* enemy : enemyList)
+			{
+				isCollide = bullet->IsCollidingWith(*enemy);
+				if (isCollide) {
+					generateExplosion(bullet->GetPositionX(), bullet->GetPositionY());
+					if (bulletList.size() != 0)
+					{
+						bulletList.erase(std::find(bulletList.begin(), bulletList.end() - 1, bullet));
+						bullet->~Bullet();
+
+					}
+					if (enemyList.size() != 0)
+					{
+						enemyList.erase(std::find(enemyList.begin(), enemyList.end() - 1, enemy));
+						enemy->~Enemy();
+					}
+
+					if (enemyList.size() == 0)
+					{
+						generateEnemy();
+					}
+					continue;
+				}
+
+			}
+			isCollide = bullet->IsCollidingWith(*m_PlayerPlane);
 			if (isCollide) {
+				//system("PAUSE");
+				//system("CLS");
+				isGameOver = true;
 				generateExplosion(bullet->GetPositionX(), bullet->GetPositionY());
 				if (bulletList.size() != 0)
 				{
 					bulletList.erase(std::find(bulletList.begin(), bulletList.end() - 1, bullet));
 					bullet->~Bullet();
-
 				}
-				if (enemyList.size() != 0)
-				{
-					enemyList.erase(std::find(enemyList.begin(), enemyList.end() - 1, enemy));
-					enemy->~Enemy();
-				}
-
-				if (enemyList.size() == 0)
-				{
-					generateEnemy();
-				}
-				continue;
 			}
-
-		}
-		isCollide = bullet->IsCollidingWith(*m_PlayerPlane);
-		if (isCollide) {
-			//system("PAUSE");
-			//system("CLS");
-			isGameOver = true;
-			generateExplosion(bullet->GetPositionX(), bullet->GetPositionY());
-			if (bulletList.size() != 0)
+			if (bullet->GetPositionX() >= width || bullet->GetPositionX() < 0)
 			{
 				bulletList.erase(std::find(bulletList.begin(), bulletList.end() - 1, bullet));
-				bullet->~Bullet();
 			}
 		}
-		if (bullet->GetPositionX() >= width||bullet->GetPositionX()<0)
-		{
-			bulletList.erase(std::find(bulletList.begin(), bulletList.end() - 1, bullet));
-		}
-	}
 
-	//Remove any dead explosions from the container...
-	for (Explosion* explosion : explosionList)
-	{
-		explosion->Process(deltaTime);
-		if (explosion->IsPaused())
+		//Remove any dead explosions from the container...
+		for (Explosion* explosion : explosionList)
 		{
-			explosion->~Explosion();
+			explosion->Process(deltaTime);
+			if (explosion->IsPaused())
+			{
+				explosion->~Explosion();
+			}
 		}
-	}
-	for (Background* background : backgroundList)
-	{
-		if(isGameOver)
+		for (Background* background : backgroundList)
 		{
-			background->Process(deltaTime, m_PlayerPlane, true);
-		}
-		else {
-			background->Process(deltaTime, m_PlayerPlane, false);
-		}
-		if (abs(background->GetPositionX()) >= pBackgroundSprite->GetWidth()) {
-			backgroundList.erase(std::find(backgroundList.begin(), backgroundList.end() - 1, background));
-		}
-		if (backgroundList.size() == 1)
-		{
-			prepareBackground(backgroundList.at(backgroundList.size() - 1)->GetPositionX()+ pBackgroundSprite->GetWidth());
-		}
-		if (!isGameOver)
-		{
-			score++;
-		}
+			if (isGameOver)
+			{
+				background->Process(deltaTime, m_PlayerPlane, true);
+			}
+			else {
+				background->Process(deltaTime, m_PlayerPlane, false);
+			}
+			if (abs(background->GetPositionX()) >= pBackgroundSprite->GetWidth()) {
+				backgroundList.erase(std::find(backgroundList.begin(), backgroundList.end() - 1, background));
+			}
+			if (backgroundList.size() == 1)
+			{
+				prepareBackground(backgroundList.at(backgroundList.size() - 1)->GetPositionX() + pBackgroundSprite->GetWidth());
+			}
+			if (!isGameOver)
+			{
+				score++;
+			}
 
+		}
 	}
-	 }
 }
 
 void
@@ -301,6 +309,7 @@ Game::Draw(BackBuffer& backBuffer)
 
 	if (!isGameOver)
 	{
+
 		for (Background* background : backgroundList)
 		{
 			background->Draw(backBuffer);
@@ -326,12 +335,16 @@ Game::Draw(BackBuffer& backBuffer)
 		for (Explosion* explosion : explosionList)
 		{
 			explosion->Draw(backBuffer);
+
 		}
 
+		m_RainParticleEmitter->draw(backBuffer);
 
 		m_pBackBuffer->SetTextColour(255, 0, 0);
 		m_pBackBuffer->DrawText(100, 100, std::to_string((int)score).c_str());//memory leak from here
 	}
+	//m_pBackBuffer->SetDrawColour(255, 230, 200);
+	//m_pBackBuffer->DrawRectangle(100, 100, 200, 200);
 	backBuffer.Present();
 }
 
@@ -349,7 +362,7 @@ Game::setPlaneGravity()
 void
 Game::movePlaneUp()
 {
-	m_PlayerPlane->SetPositionY(m_PlayerPlane->GetPositionY()-3);
+	m_PlayerPlane->SetPositionY(m_PlayerPlane->GetPositionY() - 3);
 	m_PlayerPlane->SetVerticalVelocity(0);
 
 
@@ -367,8 +380,7 @@ Game::generateEnemy()
 	srand(rand());
 	for (int i = 0; i < 3; i++)
 	{
-		int randomPosY = rand() % ((int)height-300);
-		char buffer[64];
+		int randomPosY = rand() % ((int)height - 300);
 		SpawnEnemy(width - 100, randomPosY);
 	}
 }
@@ -390,20 +402,20 @@ Game::SpawnEnemy(float x, float y)
 
 
 void
-Game::FireBullet(bool isEnemy,Entity* plane)
+Game::FireBullet(bool isEnemy, Entity* plane)
 {
 	m_Bullet = new Bullet();
 	m_Bullet->Initialise(pBulletSprite);
 	m_Bullet->setIsEnemy(isEnemy);
 	if (!isEnemy) {
-		m_Bullet->SetPositionX(plane->GetPositionX() + pPlayerSprite->GetWidth() / 2+80);
+		m_Bullet->SetPositionX(plane->GetPositionX() + pPlayerSprite->GetWidth() / 2 + 80);
 	}
 	else {
-		m_Bullet->SetPositionX(plane->GetPositionX() + pPlayerSprite->GetWidth() / 2-80);
+		m_Bullet->SetPositionX(plane->GetPositionX() + pPlayerSprite->GetWidth() / 2 - 80);
 
 	}
-	m_Bullet->SetPositionY(plane->GetPositionY()+pPlayerSprite->GetHeight()/2);
-	m_Bullet->SetHorizontalVelocity(500.0f);
+	m_Bullet->SetPositionY(plane->GetPositionY() + pPlayerSprite->GetHeight() / 2);
+	m_Bullet->SetHorizontalVelocity(400.0f);
 	bulletList.push_back(m_Bullet);
 }
 void
@@ -452,20 +464,20 @@ Game::setUpGameMenu() {
 	m_Arrow->SetPositionX(100);
 	m_Arrow->SetPositionY(180);
 	m_Arrow->Initialise(pArrowSprite);
-} 
+}
 
 void
 Game::moveArrowUpInGameMenu() {
-	if(m_Arrow->GetPositionY()-80>=180)
-	{ 
+	if (m_Arrow->GetPositionY() - 80 >= 180)
+	{
 		m_Arrow->SetPositionY(m_Arrow->GetPositionY() - 80);
 	}
 }
 void
 Game::moveArrowDownInGameMenu() {
-	if (m_Arrow->GetPositionY()+80 <= 260)
+	if (m_Arrow->GetPositionY() + 80 <= 260)
 	{
-		m_Arrow->SetPositionY(m_Arrow->GetPositionY() +80);
+		m_Arrow->SetPositionY(m_Arrow->GetPositionY() + 80);
 	}
 }
 void
@@ -492,5 +504,17 @@ Game::restartGame() {
 	enemyList.clear();
 	generateEnemy();
 	bulletList.clear();
+}
+
+void
+Game::generateRainParticle() {
+	m_RainParticle = new Particle();
+	m_RainParticle->SetPositionY(0);
+	m_RainParticle->Initialise(pRainParticleSprite);
+	m_RainParticleEmitter = new ParticleEmitter();
+	m_RainParticleEmitter->setParticle(m_RainParticle);
+	m_RainParticleEmitter->setSize(5);
+	m_RainParticleEmitter->generateParticlesHorizontal();
+	
 }
 
