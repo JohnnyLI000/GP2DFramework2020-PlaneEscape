@@ -1,8 +1,9 @@
-#include <iostream>;
-#include "Enemy.h";
+#include "Enemy.h"
 #include "game.h"
 
-Enemy::Enemy()
+Enemy::Enemy():
+	startPosX()
+	,startPosY()
 {
 
 }

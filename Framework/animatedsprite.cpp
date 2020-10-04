@@ -90,15 +90,13 @@ AnimatedSprite::Process(float deltaTime)
 		if (m_currentFrame >= m_frameCoordinates.size() ) {
 			this->Pause();
 			m_currentFrame = 0;
-			char buffer[64];
-			sprintf(buffer, "Pause: %d", IsPaused());
-			LogManager::GetInstance().Log(buffer);
 		}
 	}
 
 	// : If the current frame is greater than the number 
 	//          of frame in this animation...
 	// : Reset to the first frame.
+	
 	if (m_currentFrame >= m_frameCoordinates.size())
 	{
 		m_currentFrame = 0;
@@ -113,8 +111,6 @@ AnimatedSprite::Draw(BackBuffer& backbuffer)
 	{
 		backbuffer.DrawAnimatedSprite(*this, m_frameCoordinates.at(m_currentFrame), m_frames );
 	}
-
-
 }
 
 void

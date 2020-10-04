@@ -8,7 +8,6 @@ class PlayerPlane : public Entity {
 public:
 	PlayerPlane();
 	~PlayerPlane();
-
 	void Process(float deltaTime);
 
 

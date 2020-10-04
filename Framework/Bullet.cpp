@@ -1,8 +1,8 @@
-#include <iostream>;
-#include "Bullet.h";
+#include "Bullet.h"
 #include "game.h"
 
-Bullet::Bullet()
+Bullet::Bullet():
+	isEnemy()
 {
 }
 

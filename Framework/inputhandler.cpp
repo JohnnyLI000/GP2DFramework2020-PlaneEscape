@@ -58,7 +58,10 @@ InputHandler::ProcessInput(Game& game)
 	{
 		if (keystate[SDL_SCANCODE_SPACE])
 		{
-			game.movePlaneUp();
+			if (!game.getIsGameOver())
+			{
+				game.movePlaneUp();
+			}
 		}
 		else {
 			game.setPlaneGravity();

@@ -27,6 +27,7 @@ BackBuffer::BackBuffer()
 , m_textRed(0)
 , m_textGreen(0)
 , m_textBlue(0)
+, m_pDebugFont()
 {
 
 }
@@ -46,7 +47,8 @@ BackBuffer::~BackBuffer()
 	SDL_Quit();
 }
 void BackBuffer::clearSprite() {
-	m_pTextureManager->~TextureManager();
+	m_pTextureManager->clearTexture();
+	
 }
 
 bool 
@@ -150,10 +152,10 @@ BackBuffer::DrawSprite(Sprite& sprite)
 {
 	SDL_Rect dest;
 
-	dest.x = sprite.GetX();
-	dest.y = sprite.GetY();
-	dest.w = sprite.GetWidth();
-	dest.h = sprite.GetHeight();
+	dest.x = (int)sprite.GetX();
+	dest.y = (int)sprite.GetY();
+	dest.w = (int)sprite.GetWidth();
+	dest.h = (int)sprite.GetHeight();
 
 	SDL_RenderCopy(m_pRenderer, sprite.GetTexture()->GetTexture(), 0, &dest);
 }
@@ -162,10 +164,10 @@ BackBuffer::DrawScaleSprite(Sprite& sprite,float scale)
 {
 	SDL_Rect dest;
 
-	dest.x = sprite.GetX()/scale;
-	dest.y = sprite.GetY()/scale;
-	dest.w = sprite.GetWidth()/scale;
-	dest.h = sprite.GetHeight()/scale;
+	dest.x = (int)(sprite.GetX()/scale);
+	dest.y = (int)(sprite.GetY()/scale);
+	dest.w = (int)(sprite.GetWidth()/scale);
+	dest.h = (int)(sprite.GetHeight()/scale);
 
 	SDL_RenderCopy(m_pRenderer, sprite.GetTexture()->GetTexture(), 0, &dest);
 }
@@ -176,13 +178,13 @@ BackBuffer::DrawAnimatedSprite(Sprite& sprite,int srcX,int frame)
 	
 	src.x = srcX;
 	src.y = 0;
-	src.w = sprite.GetWidth()/frame;
-	src.h = sprite.GetHeight();
+	src.w = (int)sprite.GetWidth()/frame;
+	src.h = (int)sprite.GetHeight();
 
-	dest.x = sprite.GetX();
-	dest.y = sprite.GetY();
-	dest.w = sprite.GetWidth()/frame;
-	dest.h = sprite.GetHeight();
+	dest.x = (int)sprite.GetX();
+	dest.y = (int)sprite.GetY();
+	dest.w = (int)sprite.GetWidth()/frame;
+	dest.h = (int)sprite.GetHeight();
 	SDL_RenderCopy(m_pRenderer, sprite.GetTexture()->GetTexture(), &src, &dest);
 
 	//destination and source relationship : when you move your x or y , you have to minus the width and height in repsectively 
@@ -223,6 +225,7 @@ BackBuffer::CreateSprite(const char* pcFilename)
 		LogManager::GetInstance().Log("Sprite Failed to Create!");
 	}
 	pTexture = nullptr;
+
 	return (pSprite);
 }
 

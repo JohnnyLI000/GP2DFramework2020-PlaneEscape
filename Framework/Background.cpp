@@ -1,10 +1,13 @@
-#include <iostream>;
-#include "Background.h";
+#include <iostream>
+#include "Background.h"
 #include "game.h"
 #include "logmanager.h"
 #include <cassert>
 
 Background::Background()
+	:
+	startPosX()
+	
 {
 
 }
@@ -24,9 +27,9 @@ Background::Process(float deltaTime,PlayerPlane* playerPlane,bool isStop) {
 };
 
 void 
-Background::setStartPosX(float x) {
+Background::setStartPosX(int x) {
 	startPosX = x;
-	this->SetPositionX(startPosX);
+	this->SetPositionX((float)startPosX);
 }
 
 

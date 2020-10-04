@@ -18,15 +18,19 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
-	//iterate the loaded texture then delete each one 
-	std::map<std::string, Texture*> ::iterator iterator = m_pLoadedTextures.begin();
-	// Iterate over the map using c++11 range based for loop
-	while (iterator != m_pLoadedTextures.end()) {	
-			m_pLoadedTextures.erase(iterator++);
-	}
+
 	
 } 
 
+void 
+TextureManager::clearTexture() {
+	//iterate the loaded texture then delete each one 
+	std::map<std::string, Texture*> ::iterator iterator = m_pLoadedTextures.begin();
+	// Iterate over the map using c++11 range based for loop
+	while (iterator != m_pLoadedTextures.end()) {
+		m_pLoadedTextures.erase(iterator++);
+	}
+}
 bool 
 TextureManager::Initialise(SDL_Renderer* pRenderer)
 {
@@ -38,7 +42,6 @@ TextureManager::Initialise(SDL_Renderer* pRenderer)
 Texture*
 TextureManager::GetTexture(const char* pcFilename)
 {
-	pTexture = 0;
 	if (m_pLoadedTextures.find(pcFilename) == m_pLoadedTextures.end())
 	{
 		// Not already loaded... so load...

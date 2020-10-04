@@ -53,24 +53,24 @@ Sprite::DrawScale(BackBuffer& backbuffer,float scale)
 	backbuffer.DrawScaleSprite(*this,scale);
 }
 void 
-Sprite::SetX(int x)
+Sprite::SetX(float x)
 {
 	m_x = x;
 }
 
 void 
-Sprite::SetY(int y)
+Sprite::SetY(float y)
 {
 	m_y = y;
 }
 
-int
+float
 Sprite::GetX() const
 {
 	return (m_x);
 }
 
-int
+float
 Sprite::GetY() const
 {
 	return (m_y);
@@ -89,7 +89,7 @@ Sprite::GetAngle() const
 }
 
 void
-Sprite::SetCenter(int x, int y)
+Sprite::SetCenter(float x, float y)
 {
 	m_centerX = x;
 	m_centerY = y;
@@ -98,8 +98,8 @@ Sprite::SetCenter(int x, int y)
 void
 Sprite::SetHandleCenter()
 {
-	m_centerX = m_width / 2; 
-	m_centerY = m_height / 2;
+	m_centerX = m_width / 2.0f; 
+	m_centerY = m_height / 2.0f;
 }
 
 Texture* 
@@ -108,7 +108,7 @@ Sprite::GetTexture()
 	return (m_pTexture);
 }
 
-int 
+int
 Sprite::GetWidth() const
 {
 	return (m_width);

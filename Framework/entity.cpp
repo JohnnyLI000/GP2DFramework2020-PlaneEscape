@@ -30,6 +30,10 @@ Entity::~Entity()
 
 }
 
+void Entity::clearSprite() {
+	delete this->m_pSprite;
+	this->m_pSprite = nullptr;
+}
 bool
 Entity::Initialise(Sprite* sprite)
 {
@@ -39,18 +43,20 @@ Entity::Initialise(Sprite* sprite)
 	return (true);
 }
 
+
 void
 Entity::Process(float deltaTime)
 {
-
+	this->SetPositionX(this->GetPositionX());
+	this->SetPositionY(this->GetPositionY());
 }
 
 void
 Entity::Draw(BackBuffer& backBuffer)
 {
 	assert(m_pSprite);
-	m_pSprite->SetX(static_cast<int>(m_x));
-	m_pSprite->SetY(static_cast<int>(m_y));
+	m_pSprite->SetX(static_cast<float>(m_x));
+	m_pSprite->SetY(static_cast<float>(m_y));
 	m_pSprite->Draw(backBuffer);
 }
 
@@ -62,7 +68,7 @@ Entity::IsCollidingWith(Entity& e)
 	// SS04.6: Does this object collide with the e object?
 	// SS04.6: Create a circle for each entity (this and e).
 
-	float circle = 3 * 3 * M_PI;//area of the circle 
+	float circle = 3.0f * 3.0f * (float)M_PI;//area of the circle 
 
 	// SS04.6: Check for intersection.
 
@@ -75,7 +81,6 @@ Entity::IsCollidingWith(Entity& e)
 	// SS04.6: Using circle-vs-circle collision detection.
 
 	// SS04.6: Return result of collision.
-
 	return isCollide; // SS04.6 Change return value!
 }
 
@@ -83,6 +88,12 @@ void
 Entity::SetDead(bool dead)
 {
 	m_dead = dead;
+}
+
+bool
+Entity::IsDead()
+{
+	return m_dead;
 }
 
 void

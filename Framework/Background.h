@@ -13,10 +13,10 @@ public:
 	void Process(float deltaTime, PlayerPlane* playerPlane, bool isStop);
 
 
-	void setStartPosX(float x);
+	void setStartPosX(int x);
 
 private:
-	float startPosX;
+	int startPosX;
 
 };
 #endif // !__Background_H__

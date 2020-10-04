@@ -1,8 +1,2 @@
-﻿  game.cpp
-C:\Users\11488\Desktop\BCIS2\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(229,68): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\11488\Desktop\BCIS2\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(229,44): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\11488\Desktop\BCIS2\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(255,67): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\11488\Desktop\BCIS2\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(255,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\11488\Desktop\BCIS2\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(384,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\11488\Desktop\BCIS2\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Framework\game.cpp(439,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  ParticleEmitter.cpp
   Framework.vcxproj -> C:\Users\11488\Desktop\BCIS2\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Debug\Framework.exe

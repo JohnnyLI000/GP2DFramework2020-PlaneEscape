@@ -1,5 +1,5 @@
-#include <iostream>;
-#include "PlayerPlane.h";
+#include <iostream>
+#include "PlayerPlane.h"
 #include "game.h"
 #include <cassert>
 #include "logmanager.h"

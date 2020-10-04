@@ -17,6 +17,8 @@ public:
 	TextureManager();
 	~TextureManager();
 
+	void clearTexture();
+
 	bool Initialise(SDL_Renderer* pRenderer);
 
 	Texture* GetTexture(const char* pcFilename);

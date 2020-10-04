@@ -52,7 +52,7 @@ protected:
 	int m_frameWidth;
 
 	float m_timeElapsed;
-	int m_currentFrame;
+	size_t m_currentFrame;
 	int m_frames;
 	bool m_paused;
 	bool m_loop;

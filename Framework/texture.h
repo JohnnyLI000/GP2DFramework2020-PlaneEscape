@@ -12,6 +12,8 @@ public:
 	Texture();
 	~Texture();
 
+	void clearTexture();
+
 	bool Initialise(const char* pcFilename, SDL_Renderer* pRenderer);
 
 	int GetWidth() const;

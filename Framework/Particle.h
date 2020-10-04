@@ -9,6 +9,11 @@ public:
 	Particle();
 	~Particle();
 	void process(float deltaTime);
+	void initializeSprite(Sprite* sprite);
+private:
+	Particle(const Particle& particle);
+	Particle& operator=(const Particle& particle);
+
 //	void setStartPosX(float x);
 //	void setStartPosY(float y);
 //private: 

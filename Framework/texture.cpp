@@ -22,7 +22,10 @@ Texture::~Texture()
 {
 
 }
-
+void Texture::clearTexture() {
+	//delete m_pTexture;
+	//m_pTexture = nullptr;
+}
 bool 
 Texture::Initialise(const char* pcFilename, SDL_Renderer* pRenderer)
 {
@@ -55,14 +58,14 @@ Texture::Initialise(const char* pcFilename, SDL_Renderer* pRenderer)
 	return (m_pTexture != 0);
 }
 
-int 
+int
 Texture::GetWidth() const
 {
 	assert(m_width); 
 	return (m_width);
 }
 
-int 
+int
 Texture::GetHeight() const
 {
 	assert(m_height);

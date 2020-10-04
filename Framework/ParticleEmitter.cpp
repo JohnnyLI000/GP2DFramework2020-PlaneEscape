@@ -1,11 +1,13 @@
-#include <iostream>;
 #include "ParticleEmitter.h"
 #include "Particle.h"
 #include "logmanager.h"
 #include <time.h>
+#include "backbuffer.h"
 ParticleEmitter::ParticleEmitter():
-	particle(),
-	particleList()
+	particleList(),
+	m_pBackBuffer(0),
+	m_Particle(0),
+	size(0)
 {
 
 }
@@ -13,6 +15,11 @@ ParticleEmitter::ParticleEmitter():
 ParticleEmitter::~ParticleEmitter()
 {
 
+}
+bool ParticleEmitter::initialize(BackBuffer* backBuffer)
+{
+	this->m_pBackBuffer = backBuffer;
+	return true;
 }
 
 void ParticleEmitter::process(float deltaTime) {
@@ -25,20 +32,24 @@ void ParticleEmitter::process(float deltaTime) {
 			particle->process(deltaTime);
 		}
 		else {
-
-			particleList.erase(std::find(particleList.begin(), particleList.end() - 1, particle));
-			particle->~Particle();
-			respawnParticleHorizontal();
+			if (particleList.size() != 0)
+			{
+	//			particleList.erase(std::remove(particleList.begin(), particleList.end(), particle), particleList.end());
+				particleList.erase(std::find(particleList.begin(), particleList.end() - 1, particle));
+		//		delete particle;
+				particle = 0;
+		
+				respawnParticleHorizontal();
+			}
 		}
 	}
 }
 
-void ParticleEmitter::draw(BackBuffer& backBuffer)
+void ParticleEmitter::draw()
 {	
-	int i = 0;
 	for (Particle* particle : particleList)
 	{
-		particle->Draw(backBuffer);
+		particle->Draw(*this->m_pBackBuffer);
 	}
 }
 
@@ -50,32 +61,23 @@ void ParticleEmitter::respawnParticleHorizontal() {
 }
 void ParticleEmitter::generateParticlesHorizontal() {
 
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
-		srand(rand());
-
 		generateParticle();
 	}
 }
 
 void ParticleEmitter::generateParticle() {
-
-	randomParticle = new Particle();
-	randomParticle = particle;
-	srand(rand());
-	float randomPosX = rand() % 80000*0.01*2.5;
-	randomParticle->SetPositionX(randomPosX);
-	randomParticle->SetPositionY(0);
-	//char buffer[64];
-	//sprintf(buffer, "the position x : %f", randomParticle->GetPositionX());
-	//LogManager::GetInstance().Log(buffer);
-	srand(rand());
-	float horizontalSpeed = rand() % 1000*0.0001;
-	randomParticle->SetHorizontalVelocity(horizontalSpeed);
-	srand(rand());
-	float verticalSpeed = rand() % 1000 * 0.0001;
-	randomParticle->SetVerticalVelocity(10);
-	particleList.push_back(randomParticle);
+	m_Particle = new Particle();
+	m_Particle->initializeSprite(m_pBackBuffer->CreateSprite("assets\\parashute.png"));
+	float randomPosX = rand() % 80000*0.01f*2.5f;
+	m_Particle->SetPositionX(randomPosX);
+	m_Particle->SetPositionY(0);
+	float horizontalSpeed = rand() % 1000*0.1f;
+	m_Particle->SetHorizontalVelocity(horizontalSpeed);
+	float verticalSpeed = rand() % 1000 * 0.1f;
+	m_Particle->SetVerticalVelocity(verticalSpeed);
+	particleList.push_back(m_Particle);
 }
 
 void ParticleEmitter::setSize(int size) {
@@ -95,8 +97,5 @@ bool ParticleEmitter::isParticleDead(Particle* particle) {
 		return false;
 	}
 }
-void ParticleEmitter::setParticle(Particle* particle)
-{
-	this->particle = particle;
-}
+
 

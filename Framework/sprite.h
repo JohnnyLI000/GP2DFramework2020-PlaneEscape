@@ -20,16 +20,16 @@ public:
 
 	void DrawScale(BackBuffer& backbuffer, float scale);
 
-	void SetX(int x);
-	void SetY(int y);
+	void SetX(float x);
+	void SetY(float y);
 
-	int GetX() const;
-	int GetY() const;
+	float GetX() const;
+	float GetY() const;
 
 	void SetAngle(float angle);
 	float GetAngle() const;
 
-	void SetCenter(int x, int y);
+	void SetCenter(float x, float y);
 	void SetHandleCenter();
 
 	int GetWidth() const;
@@ -48,12 +48,12 @@ public:
 
 protected:
 	Texture* m_pTexture;
-	int m_x;
-	int m_y;
+	float m_x;
+	float m_y;
 
 	float m_angle;
-	int m_centerX;
-	int m_centerY;
+	float m_centerX;
+	float m_centerY;
 
 	int m_width;
 	int m_height;

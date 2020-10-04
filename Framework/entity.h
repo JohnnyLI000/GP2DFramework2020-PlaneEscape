@@ -4,7 +4,7 @@
 // Forward Declarations:
 class BackBuffer;
 class Sprite;
-
+class AnimatedSprite;
 class Entity
 {
 	//Member Methods:
@@ -12,13 +12,16 @@ public:
 	Entity();
 	~Entity();
 
+	void clearSprite();
+
 	bool Initialise(Sprite* sprite);
+
 
 	virtual void Process(float deltaTime);
 	void Draw(BackBuffer& backBuffer);
 
 	void SetDead(bool dead);
-	bool IsDead() const;
+	bool IsDead();
 
 	bool IsCollidingWith(Entity& e);
 

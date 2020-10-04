@@ -9,6 +9,7 @@
 #include "GameMenu.h"
 #include "ParticleEmitter.h"
 #include "Particle.h"
+#include "HUD.h"
 #ifndef __GAME_H__
 #define __GAME_H__
 
@@ -33,18 +34,30 @@ public:
 
 	void setPlaneGravity();
 	void movePlaneUp();
-	void generatePlayerPlane(float verticalSpeed);
-	void generateEnemy();
+
 	void FireBullet(bool isEnemy, Entity* plane);
+	void generateExplosion(Entity* plane, bool isLooping);
 	void SpawnEnemy(float x, float y);
 	Entity* getPlayerPlane();
 	void setUpGameMenu();
 	void moveArrowUpInGameMenu();
 	void moveArrowDownInGameMenu();
 	void menuEnter();
-	bool getIsGameOver();
 	void restartGame();
+
+	bool getIsGameOver();
+
 	void generateRainParticle();
+	void generatePlayerPlane(float verticalSpeed);
+	void generateEnemy();
+	void generateBackground();
+
+	void prepareBackground(int x);
+	bool isGameOver;
+	void setUpGame();
+	void processGame(float deltaTime);
+	void drawGame(BackBuffer& backBuffer);
+	void setUpHUD();
 
 protected:
 	void Process(float deltaTime);
@@ -88,7 +101,7 @@ protected:
 	Sprite* pBackgroundSprite;
 	Background* m_Background;
 
-	AnimatedSprite* pExplosionSprite;
+
 	Explosion* m_Explosion;
 
 	Sprite* pGameMenuSprite;
@@ -99,24 +112,17 @@ protected:
 	Sprite* pRainParticleSprite;
 	Particle* m_RainParticle;
 	ParticleEmitter* m_RainParticleEmitter;
+
+	HUD* m_HUD;
+	int m_fuel;
+	int m_fuelTank; 
 	std::vector<Enemy*> enemyList;
 	std::vector<Bullet*> bulletList;
 	std::vector<Explosion*> explosionList;
 	std::vector<Background*> backgroundList;
 
-	// Game Entities:
-
-	// SS04.4: Add a PlayerShip field. 
-
-	// SS04.5: Add an alien enemy container field.
-
-	// SS04.6: Add a bullet container field.
-
 private:
-	void generateExplosion(int x, int y);
-	void generateBackground();
-	void prepareBackground(float x);
-	bool isGameOver;
+
 
 
 
