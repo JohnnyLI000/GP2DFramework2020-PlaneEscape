@@ -2,19 +2,17 @@
 
 // This include:
 #include "backbuffer.h"
-
-// Local includes:
 #include "logmanager.h"
 #include "texturemanager.h"
 #include "sprite.h"
 #include "texture.h"
 #include "SDL_ttf.h"
+#include "animatedsprite.h"
 
 // Library includes:
 #include <SDL.h>
 #include <SDL_image.h>
 #include <cassert>
-#include "animatedsprite.h"
 BackBuffer::BackBuffer()
 : m_pTextureManager(0)
 , m_pWindow(0)
@@ -260,7 +258,7 @@ BackBuffer::SetTextColour(unsigned char r, unsigned char g, unsigned char b)
 	m_textBlue = b;
 }
 
-void BackBuffer::DrawText(int x, int y, const char* pcText)
+void BackBuffer::DrawInGameText(int x, int y, const char* pcText)
 {
 	SDL_Color colour;
 	colour.r = m_textRed;

@@ -10,6 +10,7 @@
 #include "ParticleEmitter.h"
 #include "Particle.h"
 #include "HUD.h"
+#include "fmod.hpp"
 #ifndef __GAME_H__
 #define __GAME_H__
 
@@ -32,10 +33,12 @@ public:
 	static float width;
 	static float height;
 
+	void setUpSplashScreen();
+
 	void setPlaneGravity();
 	void movePlaneUp();
 
-	void FireBullet(bool isEnemy, Entity* plane);
+	void fireBullet(bool isEnemy, Entity* plane);
 	void generateExplosion(Entity* plane, bool isLooping);
 	void SpawnEnemy(float x, float y);
 	Entity* getPlayerPlane();
@@ -89,6 +92,11 @@ protected:
 	bool m_drawDebugInfo;
 	float score;
 	float gravity;
+
+	Sprite* pSplashScreen;
+	Entity* m_SplahScreen;
+
+
 	PlayerPlane* m_PlayerPlane;
 	Sprite* pPlayerSprite;
 
@@ -116,6 +124,7 @@ protected:
 	HUD* m_HUD;
 	int m_fuel;
 	int m_fuelTank; 
+
 	std::vector<Enemy*> enemyList;
 	std::vector<Bullet*> bulletList;
 	std::vector<Explosion*> explosionList;
@@ -123,6 +132,13 @@ protected:
 
 private:
 
+	// sounds
+	FMOD::Channel* m_pchannel;
+	FMOD::ChannelGroup* m_pchannelGroup;
+	FMOD::System* m_pfmodsystem;
+	FMOD_RESULT m_result;
+	FMOD::Sound *m_fireBulletSound;
+	FMOD::Sound *m_explosionSound;
 
 
 

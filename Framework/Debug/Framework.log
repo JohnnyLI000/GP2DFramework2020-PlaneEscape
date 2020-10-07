@@ -1,2 +1,38 @@
-﻿  ParticleEmitter.cpp
-  Framework.vcxproj -> C:\Users\11488\Desktop\BCIS2\Game programming practice\COMP710-2020-S2\students\yuanhao.li\GP2DFramework2020-PlaneEscape\Debug\Framework.exe
+﻿  animatedsprite.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\texture.h(6): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  backbuffer.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  Background.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  Bullet.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  Enemy.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  entity.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  Explosion.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  game.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  GameMenu.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  HUD.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  inputhandler.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\inputhandler.h(6): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  logmanager.cpp
+  main.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\main.cpp(4): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  ParticleEmitter.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  PlayerPlane.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  Particle.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  sprite.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\backbuffer.h(4): fatal error C1083: Cannot open include file: 'SDL_ttf.h': No such file or directory
+  texture.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\texture.h(6): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  texturemanager.cpp
+c:\users\11488\desktop\bcis2\game programming practice\comp710-2020-s2\students\yuanhao.li\gold 17982806\gp2dframework2020-planeescape\framework\texture.h(6): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  Generating Code...

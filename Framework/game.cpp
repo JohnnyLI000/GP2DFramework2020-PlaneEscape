@@ -7,13 +7,13 @@
 #include "inputhandler.h"
 #include "logmanager.h"
 #include "sprite.h"
-
+#include "fmod.hpp"
 // Library includes:
 #include <cassert>
 #include <SDL.h>
 #include <cstdio>
+#include <Windows.h>
 #include <string>
-
 // Static Members:
 Game* Game::sm_pInstance = 0;
 float Game::width = 800.0f;
@@ -71,12 +71,22 @@ Game::Game()
 	, pRainParticleSprite()
 	, m_HUD()
 	, m_fuel(0)
+	, m_pfmodsystem(nullptr)
+	, m_pchannel(nullptr)
+	, m_pchannelGroup(nullptr)
+	, m_result()
+	, m_fireBulletSound(0)
+	, m_explosionSound(0)
 {
 
 }
 
 Game::~Game()
 {
+	m_fireBulletSound->release();
+	m_pchannelGroup->release();
+	m_pfmodsystem->release();
+
 	delete m_pBackBuffer;
 	m_pBackBuffer = 0;
 }
@@ -102,8 +112,19 @@ Game::Initialise()
 
 	m_lastTime = SDL_GetPerformanceCounter();
 	m_lag = 0.0f;
-
+	
 	m_pBackBuffer->SetClearColour(0xCC, 0xCC, 0xCC);
+
+	// initialize FMOD
+	m_result = FMOD::System_Create(&m_pfmodsystem);
+	m_result = m_pfmodsystem->init(512, FMOD_INIT_NORMAL, nullptr);
+
+	// Create the channel group
+	m_result = m_pfmodsystem->createChannelGroup("inGameSoundEffects", &m_pchannelGroup);
+	//
+
+	m_pfmodsystem->createStream("assets\\Media\\FireBullet.mp3", FMOD_DEFAULT, 0, &m_fireBulletSound); 
+	m_pfmodsystem->createStream("assets\\Media\\Explosion.mp3", FMOD_DEFAULT, 0, &m_explosionSound);
 
 	this->setUpGame();
 
@@ -173,7 +194,18 @@ Game::Draw(BackBuffer& backBuffer)
 {
 	++m_frameCount;
 	backBuffer.Clear();
-	drawGame(backBuffer);
+	if (m_executionTime < 2)
+	{
+		m_SplahScreen->Draw(backBuffer);
+
+	}
+	else 
+	{
+		m_SplahScreen->~Entity();
+
+		drawGame(backBuffer);
+	}
+
 	backBuffer.Present();
 }
 
@@ -182,6 +214,8 @@ Game::Quit()
 {
 	m_looping = false;
 }
+
+
 
 void
 Game::setPlaneGravity()
@@ -237,8 +271,11 @@ Game::SpawnEnemy(float x, float y)
 
 
 void
-Game::FireBullet(bool isEnemy, Entity* plane)
+Game::fireBullet(bool isEnemy, Entity* plane)
 {
+	m_result = m_pfmodsystem->playSound(m_fireBulletSound, m_pchannelGroup, false, &m_pchannel);
+	m_result = m_pchannel->setChannelGroup(m_pchannelGroup);
+
 	pBulletSprite = new Sprite();
 	pBulletSprite = m_pBackBuffer->CreateSprite("assets\\Bullet.png");
 
@@ -258,10 +295,12 @@ Game::FireBullet(bool isEnemy, Entity* plane)
 	bulletList.push_back(m_Bullet);
 
 
+
 }
 void
  Game::generateExplosion(Entity* plane,bool isLooping) {
-
+	m_result = m_pfmodsystem->playSound(m_explosionSound, m_pchannelGroup, false, &m_pchannel);
+	m_result = m_pchannel->setChannelGroup(m_pchannelGroup);
 	m_Explosion = new Explosion();
 	m_Explosion->Initialise(m_pBackBuffer,plane);
 	m_Explosion->setUpExplosionSprite();
@@ -317,6 +356,17 @@ Game::setUpGameMenu() {
 	//delete pArrowSprite;
 	//pArrowSprite = nullptr;
 }
+
+void
+Game::setUpSplashScreen() {
+	pSplashScreen = new Sprite();
+	pSplashScreen = m_pBackBuffer->CreateSprite("assets\\FMOD Logo.png");
+	m_SplahScreen = new Entity();
+	m_SplahScreen->Initialise(pSplashScreen);
+	m_SplahScreen->SetPositionX(250);
+	m_SplahScreen->SetPositionY(250);
+}
+
 
 void
 Game::moveArrowUpInGameMenu() {
@@ -376,6 +426,9 @@ Game::setUpHUD() {
 
 void
 Game::setUpGame() {
+
+	setUpSplashScreen();
+
 	gravity = 1.4f;
 	m_fuel = 400;
 	m_fuelTank = 400;
@@ -387,8 +440,6 @@ Game::setUpGame() {
 	pBackgroundSprite = m_pBackBuffer->CreateSprite("assets\\Background.png");
 	generateBackground();
 	
-
-
 	generateEnemy();
 	generateRainParticle();
 
@@ -401,6 +452,7 @@ void
 Game::processGame(float deltaTime) {
 	m_GameMenu->Process(deltaTime);
 	m_Arrow->Process(deltaTime);
+	
 	if ((int)m_PlayerPlane->GetPositionY() > width)
 	{
 		isGameOver = true;
@@ -420,7 +472,7 @@ Game::processGame(float deltaTime) {
 			{
 				if ((int)(m_elapsedSeconds * 100) % 20 == 0)
 				{
-					FireBullet(true, enemy);
+					fireBullet(true, enemy);
 				}
 			}
 		}
@@ -532,6 +584,8 @@ void
 Game::drawGame(BackBuffer& backBuffer) {
 	m_GameMenu->Draw(backBuffer);
 	m_Arrow->Draw(backBuffer);
+
+
 	if (!isGameOver)
 	{
 
@@ -566,7 +620,8 @@ Game::drawGame(BackBuffer& backBuffer) {
 		m_HUD->draw();
 
 		m_pBackBuffer->SetTextColour(255, 0, 0);
-		m_pBackBuffer->DrawText(100, 100, std::to_string((int)score).c_str());//memory leak from here
+		m_pBackBuffer->DrawInGameText(100, 100, std::to_string((int)score).c_str());//memory leak from here
+
 	}
 
 	//m_pBackBuffer->SetDrawColour(255, 230, 200);

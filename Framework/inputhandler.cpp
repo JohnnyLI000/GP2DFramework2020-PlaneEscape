@@ -85,7 +85,7 @@ InputHandler::ProcessInput(Game& game)
 		{
 			game.moveArrowDownInGameMenu();
 		}
-		else if (event.key.keysym.sym ==SDLK_c)
+		else if (event.key.keysym.sym == SDLK_SPACE)
 		{
 			if (game.getIsGameOver())
 			{
@@ -94,7 +94,7 @@ InputHandler::ProcessInput(Game& game)
 		}
 		else if (event.key.keysym.sym == SDLK_RIGHT)
 		{
-			game.FireBullet(false, game.getPlayerPlane());
+			game.fireBullet(false, game.getPlayerPlane());
 		}
 		// SS04.3: Tell the game to move the space ship right...
 	}

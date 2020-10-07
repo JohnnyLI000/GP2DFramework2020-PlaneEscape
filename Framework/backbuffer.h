@@ -42,7 +42,7 @@ public:
 
 	void SetTextColour(unsigned char r, unsigned char g, unsigned
 		char b);
-	void DrawText(int x, int y, const char* pcText);
+	void DrawInGameText(int x, int y, const char* pcText);
 
 	 TTF_Font* m_pDebugFont;
 	  unsigned char m_textRed;
