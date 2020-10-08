@@ -18,5 +18,5 @@ User interface design: start and finish button
 Unique selling points: it’s very addictive to play.
 
  ## How it looks like :
-![Alt text](https://jonnnyportfolioimagebucket.s3-ap-southeast-2.amazonaws.com/Image/Plane+escape.gif "Game")
+![Alt text](https://jonnnyportfolioimagebucket.s3-ap-southeast-2.amazonaws.com/Image/ezgif.com-gif-maker+(1).gif "Game")
  
